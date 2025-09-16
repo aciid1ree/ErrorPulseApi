@@ -1,7 +1,21 @@
+using ErrorPulseApi;
+using ErrorPulseApi.Configuration;
+using ErrorPulseApi.Models;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddOpenApi();
 builder.Services.AddSwaggerGen();
+
+builder.Services
+    .AddOptions<GenerationOptions>()
+    .Bind(builder.Configuration.GetSection("Generation"))
+    .ValidateOnStart();
+
+builder.Services
+    .AddOptions<DataFoldersOptions>()
+    .Bind(builder.Configuration.GetSection("DataFolders"))
+    .ValidateOnStart();
 
 var app = builder.Build();
 
