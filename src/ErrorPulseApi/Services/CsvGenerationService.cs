@@ -16,43 +16,39 @@ public class CsvGenerationService : ICsvGenerationService
     private readonly DataFoldersOptions _dataFoldersOptions;
     private readonly ReferenceData _referenceData;
     private readonly ILogger<CsvGenerationService> _logger;
+    private readonly IHostEnvironment _hostEnvironment;
 
     private readonly Random _rnd = new();
 
     public CsvGenerationService(
         IOptions<DataFoldersOptions> dataFoldersOptions,
         IReferenceDataProvider referenceDataProvider,
-        ILogger<CsvGenerationService> logger)
+        ILogger<CsvGenerationService> logger,
+        IHostEnvironment hostEnvironment)
     {
         _dataFoldersOptions = dataFoldersOptions.Value;
         _referenceData = referenceDataProvider.GetReferenceData();
         _logger = logger;
+        _hostEnvironment = hostEnvironment;
     }
 
     public async Task<bool> CreateCsvFile()
     {
-        try
-        {
-            Directory.CreateDirectory(_dataFoldersOptions.CsvDataPath);
+        var dirPath = Path.Combine(_hostEnvironment.ContentRootPath, _dataFoldersOptions.ErrorDirDataPath);
+        Directory.CreateDirectory(dirPath);
 
-            var fileName = $"{Guid.NewGuid():N}.csv";
-            var fullPath = Path.Combine(_dataFoldersOptions.CsvDataPath, fileName);
+        var fileName = $"{Guid.NewGuid():N}.csv";
+        var fullPath = Path.Combine(dirPath, fileName);
 
-            await using var writer = new StreamWriter(fullPath);
-            await using var csv = new CsvWriter(writer, CultureInfo.InvariantCulture);
+        await using var writer = new StreamWriter(fullPath);
+        await using var csv = new CsvWriter(writer, CultureInfo.InvariantCulture);
 
-            await csv.WriteRecordsAsync(GenerateErrors());
-            await writer.FlushAsync();
-            
-            _logger.LogInformation("CSV file created successfully at {Path}", fullPath);
-            return true;
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Failed to create CSV file.");
-            return false;
-        }
-    }
+        await csv.WriteRecordsAsync(GenerateErrors());
+        await writer.FlushAsync();
+
+        _logger.LogInformation("CSV file created successfully at {Path}", fullPath);
+        return true;
+    } 
 
     private IEnumerable<ErrorInfo> GenerateErrors(int count = 10_000)
     {

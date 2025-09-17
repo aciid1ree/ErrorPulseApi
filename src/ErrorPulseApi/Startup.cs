@@ -8,6 +8,7 @@ public class Startup
     {
         services.AddScoped<IReferenceDataProvider, ReferenceDataProvider>();
         services.AddScoped<ICsvGenerationService, CsvGenerationService>();
+        services.AddScoped<IErrorAnalyticsService, ErrorAnalyticsService>();
     }
 
     public void Configure(IApplicationBuilder app)
