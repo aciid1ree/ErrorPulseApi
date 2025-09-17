@@ -1,5 +1,4 @@
 using System.Globalization;
-using System.Text.Json;
 using CsvHelper;
 using ErrorPulseApi.Configuration;
 using ErrorPulseApi.Models;
@@ -16,14 +15,18 @@ public class CsvGenerationService : ICsvGenerationService
 {
     private readonly DataFoldersOptions _dataFoldersOptions;
     private readonly ReferenceData _referenceData;
+    private readonly ILogger<CsvGenerationService> _logger;
+
     private readonly Random _rnd = new();
 
     public CsvGenerationService(
         IOptions<DataFoldersOptions> dataFoldersOptions,
-        IReferenceDataProvider referenceDataProvider)
+        IReferenceDataProvider referenceDataProvider,
+        ILogger<CsvGenerationService> logger)
     {
         _dataFoldersOptions = dataFoldersOptions.Value;
-        _referenceData = referenceDataProvider.GetReferenceData(); 
+        _referenceData = referenceDataProvider.GetReferenceData();
+        _logger = logger;
     }
 
     public async Task<bool> CreateCsvFile()
@@ -40,11 +43,13 @@ public class CsvGenerationService : ICsvGenerationService
 
             await csv.WriteRecordsAsync(GenerateErrors());
             await writer.FlushAsync();
-
+            
+            _logger.LogInformation("CSV file created successfully at {Path}", fullPath);
             return true;
         }
-        catch
+        catch (Exception ex)
         {
+            _logger.LogError(ex, "Failed to create CSV file.");
             return false;
         }
     }
