@@ -5,13 +5,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "common", "common", "{2498C7
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{66734DBD-AE15-4D36-BEB2-928813A2A39A}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{91A75867-A62B-4DF8-85D9-5FB93E0DDC20}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ErrorPulseApi", "src\ErrorPulseApi\ErrorPulseApi.csproj", "{A06DCE7C-FEAE-4A42-9310-BEF52310E332}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "csvData", "csvData", "{219D455F-1CC7-497B-B9BA-5126C85EEAA0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
