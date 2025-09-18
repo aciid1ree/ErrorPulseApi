@@ -9,6 +9,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{91A75867-A62
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ErrorPulseApi", "src\ErrorPulseApi\ErrorPulseApi.csproj", "{A06DCE7C-FEAE-4A42-9310-BEF52310E332}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "csvData", "csvData", "{219D455F-1CC7-497B-B9BA-5126C85EEAA0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
